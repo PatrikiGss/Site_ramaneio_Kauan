@@ -1,0 +1,21 @@
+# Ambiente virtual (cada máquina cria o seu — ver INSTALACAO.md)
+venv/
+
+# Bytecode do Python
+__pycache__/
+*.pyc
+
+# Banco de dados local (não versionar dados de produção/teste)
+db.sqlite3
+
+# Arquivos de configuração local de ferramentas
+.claude/
+.vscode/
+.idea/
+
+# Variáveis de ambiente e logs
+.env
+*.log
+
+# Estáticos coletados para produção (gerados por collectstatic)
+staticfiles/

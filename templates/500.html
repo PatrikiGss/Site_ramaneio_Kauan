@@ -1,0 +1,48 @@
+{% comment %}
+Página de erro interno. Diferente das outras, NÃO herda de base.html e não
+carrega estáticos: se o erro 500 vier de um problema no carregamento de
+templates ou de estáticos, esta página precisa continuar funcionando.
+{% endcomment %}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Erro interno | Romaneio de Cargas</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            text-align: center;
+        }
+        .caixa { max-width: 26rem; }
+        h1 { font-size: 1.4rem; }
+        p { color: #6c757d; }
+        a {
+            display: inline-block;
+            margin-top: .75rem;
+            padding: .5rem 1.25rem;
+            background: #198754;
+            color: #fff;
+            border-radius: .375rem;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="caixa">
+        <h1>Ocorreu um erro no sistema</h1>
+        <p>
+            Algo deu errado ao processar sua solicitação. Tente novamente em
+            instantes; se o problema continuar, avise o responsável pelo sistema.
+        </p>
+        <a href="/">Voltar para o início</a>
+    </div>
+</body>
+</html>

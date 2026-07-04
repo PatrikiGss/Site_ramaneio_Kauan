@@ -1,0 +1,21 @@
+/* Ajustes finos sobre o Bootstrap para uso em celular */
+
+.card-resumo .valor {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+    .card-resumo .valor {
+        font-size: 1.1rem;
+    }
+}
+
+/* Área de toque maior para botões de ação em telas pequenas */
+.btn-acao {
+    min-width: 2.5rem;
+}
+
+.tabela-cargas tbody tr {
+    cursor: pointer;
+}

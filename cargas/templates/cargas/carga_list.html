@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Cargas | Romaneio de Cargas{% endblock %}
+
+{% block conteudo %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h4 mb-0">Cargas registradas</h1>
+    <a href="{% url 'cargas:nova' %}" class="btn btn-success">
+        <i class="bi bi-plus-lg me-1"></i>Nova carga
+    </a>
+</div>
+
+<div class="row g-2 mb-3 text-center">
+    <div class="col-4">
+        <div class="card card-resumo shadow-sm h-100">
+            <div class="card-body py-2">
+                <div class="text-muted small">Cargas</div>
+                <div class="valor">{{ totais.cargas|default:0 }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card card-resumo shadow-sm h-100">
+            <div class="card-body py-2">
+                <div class="text-muted small">Caixas</div>
+                <div class="valor">{{ totais.caixas|default:0 }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card card-resumo shadow-sm h-100">
+            <div class="card-body py-2">
+                <div class="text-muted small">Peso (kg)</div>
+                <div class="valor">{{ totais.peso|default:0|floatformat:2 }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-header bg-body">
+        <button class="btn btn-link text-decoration-none p-0" type="button"
+                data-bs-toggle="collapse" data-bs-target="#filtros">
+            <i class="bi bi-funnel me-1"></i>Filtrar registros
+        </button>
+    </div>
+    <div class="collapse {% if request.GET %}show{% endif %}" id="filtros">
+        <div class="card-body">
+            <form method="get" class="row g-2">
+                <div class="col-12 col-md-4">
+                    <label class="form-label small mb-1" for="{{ filtro.busca.id_for_label }}">{{ filtro.busca.label }}</label>
+                    {{ filtro.busca }}
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small mb-1" for="{{ filtro.tipo_maca.id_for_label }}">{{ filtro.tipo_maca.label }}</label>
+                    {{ filtro.tipo_maca }}
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small mb-1" for="{{ filtro.tamanho.id_for_label }}">{{ filtro.tamanho.label }}</label>
+                    {{ filtro.tamanho }}
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small mb-1" for="{{ filtro.data_inicio.id_for_label }}">{{ filtro.data_inicio.label }}</label>
+                    {{ filtro.data_inicio }}
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small mb-1" for="{{ filtro.data_fim.id_for_label }}">{{ filtro.data_fim.label }}</label>
+                    {{ filtro.data_fim }}
+                </div>
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="bi bi-search me-1"></i>Buscar
+                    </button>
+                    <a href="{% url 'cargas:lista' %}" class="btn btn-outline-secondary btn-sm">Limpar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if cargas %}
+    <!-- Tabela (telas médias e grandes) -->
+    <div class="card shadow-sm d-none d-md-block">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 tabela-cargas">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Data/Hora</th>
+                        <th>Tipo</th>
+                        <th>Tamanho</th>
+                        <th class="text-end">Caixas</th>
+                        <th class="text-end">Peso (kg)</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for carga in cargas %}
+                    <tr onclick="window.location='{{ carga.get_absolute_url }}'">
+                        <td>{{ carga.pk }}</td>
+                        <td>{{ carga.criado_em|date:'d/m/Y H:i' }}</td>
+                        <td>{{ carga.get_tipo_maca_display }}</td>
+                        <td>{{ carga.get_tamanho_display }}</td>
+                        <td class="text-end">{{ carga.quantidade_caixas }}</td>
+                        <td class="text-end">{{ carga.peso_total|floatformat:2 }}</td>
+                        <td class="text-end" onclick="event.stopPropagation()">
+                            <a href="{% url 'cargas:detalhe' carga.pk %}" class="btn btn-sm btn-outline-secondary btn-acao" title="Detalhes">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'cargas:editar' carga.pk %}" class="btn btn-sm btn-outline-primary btn-acao" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{% url 'cargas:excluir' carga.pk %}" class="btn btn-sm btn-outline-danger btn-acao" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Cards (celular) -->
+    <div class="d-md-none vstack gap-2">
+        {% for carga in cargas %}
+        <div class="card shadow-sm">
+            <div class="card-body py-2">
+                <div class="d-flex justify-content-between align-items-start">
+                    <a href="{{ carga.get_absolute_url }}" class="text-decoration-none text-body stretched-link">
+                        <strong>#{{ carga.pk }} — {{ carga.get_tipo_maca_display }}</strong>
+                        <div class="text-muted small">{{ carga.criado_em|date:'d/m/Y H:i' }}</div>
+                    </a>
+                    <span class="badge text-bg-success">{{ carga.get_tamanho_display }}</span>
+                </div>
+                <div class="d-flex gap-3 mt-1 small">
+                    <span><i class="bi bi-box-seam me-1"></i>{{ carga.quantidade_caixas }} caixas</span>
+                    <span><i class="bi bi-speedometer2 me-1"></i>{{ carga.peso_total|floatformat:2 }} kg</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <nav class="mt-3" aria-label="Paginação">
+        <ul class="pagination justify-content-center mb-0">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Próxima</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+{% else %}
+    <div class="card shadow-sm">
+        <div class="card-body text-center py-5 text-muted">
+            <i class="bi bi-inbox display-4 d-block mb-2"></i>
+            {% if request.GET %}
+                Nenhuma carga encontrada com os filtros aplicados.
+            {% else %}
+                Nenhuma carga registrada ainda.<br>
+                <a href="{% url 'cargas:nova' %}" class="btn btn-success mt-3">
+                    <i class="bi bi-plus-lg me-1"></i>Registrar a primeira carga
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

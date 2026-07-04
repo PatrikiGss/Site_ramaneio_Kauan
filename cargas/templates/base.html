@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# Cor da barra do navegador em celulares (combina com a navbar) #}
+    <meta name="theme-color" content="#198754">
+    <title>{% block titulo %}Romaneio de Cargas{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="{% static 'cargas/style.css' %}" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand navbar-dark bg-success shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="{% url 'cargas:lista' %}">
+                <i class="bi bi-truck me-1"></i><span class="d-none d-sm-inline"> Romaneio de Cargas</span><span class="d-sm-none"> Romaneio</span>
+            </a>
+            <div class="navbar-nav ms-auto align-items-center">
+                {% if user.is_authenticated %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'lista' %}active{% endif %}"
+                       href="{% url 'cargas:lista' %}">
+                        <i class="bi bi-list-ul d-sm-none"></i><span class="d-none d-sm-inline">Cargas</span>
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'nova' %}active{% endif %}"
+                       href="{% url 'cargas:nova' %}">
+                        <i class="bi bi-plus-circle d-sm-none"></i><span class="d-none d-sm-inline">Nova carga</span>
+                    </a>
+                    <div class="nav-item dropdown ms-1">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="d-none d-sm-inline ms-1">{{ user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'contas:trocar_senha' %}">
+                                    <i class="bi bi-key me-2"></i>Trocar senha
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'contas:registrar' %}">
+                                    <i class="bi bi-person-plus me-2"></i>Criar conta para terceiro
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                {# Logout precisa ser POST (exigência do Django por segurança), por isso um form e não um link #}
+                                <form method="post" action="{% url 'contas:sair' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Sair
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a class="nav-link" href="{% url 'contas:entrar' %}">Entrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 flex-grow-1">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer class="text-center text-muted small py-3">
+        Sistema de Romaneio de Cargas
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

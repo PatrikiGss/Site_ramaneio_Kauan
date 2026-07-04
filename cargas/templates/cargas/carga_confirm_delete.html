@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Excluir carga #{{ carga.pk }} | Romaneio de Cargas{% endblock %}
+
+{% block conteudo %}
+<h1 class="h4 mb-3">Excluir carga #{{ carga.pk }}</h1>
+
+<div class="card shadow-sm border-danger">
+    <div class="card-body">
+        <p class="mb-3">
+            <i class="bi bi-exclamation-triangle text-danger me-1"></i>
+            Tem certeza de que deseja excluir esta carga? <strong>Esta ação não pode ser desfeita.</strong>
+        </p>
+
+        <ul class="list-group mb-4">
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="text-muted">Data/Hora</span>
+                <span>{{ carga.criado_em|date:'d/m/Y H:i' }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="text-muted">Tipo / Tamanho</span>
+                <span>{{ carga.get_tipo_maca_display }} — {{ carga.get_tamanho_display }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="text-muted">Caixas</span>
+                <span>{{ carga.quantidade_caixas }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="text-muted">Peso total</span>
+                <span>{{ carga.peso_total|floatformat:2 }} kg</span>
+            </li>
+        </ul>
+
+        <form method="post" class="d-flex gap-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash me-1"></i>Excluir definitivamente
+            </button>
+            <a href="{% url 'cargas:detalhe' carga.pk %}" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

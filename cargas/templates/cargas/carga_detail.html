@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Carga #{{ carga.pk }} | Romaneio de Cargas{% endblock %}
+
+{% block conteudo %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h4 mb-0">Carga #{{ carga.pk }}</h1>
+    <div class="d-flex gap-2">
+        <a href="{% url 'cargas:editar' carga.pk %}" class="btn btn-primary">
+            <i class="bi bi-pencil me-1"></i>Editar
+        </a>
+        <a href="{% url 'cargas:excluir' carga.pk %}" class="btn btn-outline-danger">
+            <i class="bi bi-trash me-1"></i>Excluir
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4 col-lg-3 text-muted">Data e hora do cadastro</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.criado_em|date:'d/m/Y H:i' }}</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Última atualização</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.atualizado_em|date:'d/m/Y H:i' }}</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Tipo da maçã</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.get_tipo_maca_display }}</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Tamanho da maçã</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.get_tamanho_display }}</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Quantidade de caixas</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.quantidade_caixas }}</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Peso total</dt>
+            <dd class="col-sm-8 col-lg-9">{{ carga.peso_total|floatformat:2 }} kg</dd>
+
+            <dt class="col-sm-4 col-lg-3 text-muted">Observações</dt>
+            {# text-break: quebra palavras muito longas para não estourar a largura no celular #}
+            <dd class="col-sm-8 col-lg-9 mb-0 text-break">
+                {% if carga.observacoes %}{{ carga.observacoes|linebreaksbr }}{% else %}<span class="text-muted">—</span>{% endif %}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<a href="{% url 'cargas:lista' %}" class="btn btn-outline-secondary mt-3">
+    <i class="bi bi-arrow-left me-1"></i>Voltar para a lista
+</a>
+{% endblock %}
