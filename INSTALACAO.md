@@ -43,7 +43,27 @@ python3 -m venv venv
 > Nos comandos seguintes, use `.\venv\Scripts\python.exe` no Windows ou
 > `./venv/bin/python` no Linux/Mac.
 
-## 3. Criar o banco de dados
+## 3. Configurar o arquivo `.env`
+
+As configurações sensíveis (chave secreta, hosts, banco) ficam em um arquivo
+`.env`, que **não** vai para o Git. Crie o seu a partir do modelo:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+No Linux/Mac: `cp .env.example .env`.
+
+Depois, **gere uma chave secreta** e cole no `.env` (campo `SECRET_KEY`):
+
+```powershell
+.\venv\Scripts\python.exe -c "from django.core.management.utils import get_random_secret_key as k; print(k())"
+```
+
+Os demais valores já vêm com padrões que funcionam para uso local. O
+comentário dentro do próprio `.env.example` explica cada campo.
+
+## 4. Criar o banco de dados
 
 O banco (`db.sqlite3`) também não vai para o Git — cada instalação tem o seu.
 Ele é criado ao aplicar as migrações:
@@ -52,7 +72,7 @@ Ele é criado ao aplicar as migrações:
 .\venv\Scripts\python.exe manage.py migrate
 ```
 
-## 4. Reunir os arquivos estáticos
+## 5. Reunir os arquivos estáticos
 
 O sistema roda em modo produção (páginas de erro amigáveis), então o CSS do
 site e do painel administrativo precisa ser coletado uma vez (e novamente a
@@ -62,7 +82,7 @@ cada atualização do código):
 .\venv\Scripts\python.exe manage.py collectstatic --noinput
 ```
 
-## 5. Criar o usuário administrador
+## 6. Criar o usuário administrador
 
 Necessário para acessar o painel administrativo (`/admin/`) e para criar as
 primeiras contas de operadores:
@@ -73,14 +93,14 @@ primeiras contas de operadores:
 
 Informe usuário, e-mail (opcional) e senha quando solicitado.
 
-## 6. Rodar o sistema
+## 7. Rodar o sistema
 
 ```powershell
 .\venv\Scripts\python.exe manage.py runserver
 ```
 
 Acesse **http://127.0.0.1:8000** no navegador e entre com o usuário criado no
-passo 5. Novas contas de operadores são criadas por quem já está logado, no
+passo 6. Novas contas de operadores são criadas por quem já está logado, no
 menu (ícone de pessoa) → **"Criar conta para terceiro"** — defina uma senha
 provisória e repasse ao operador; no primeiro acesso ele será obrigado a
 trocá-la.
@@ -92,11 +112,16 @@ trocá-la.
    ```python
    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.10']  # troque pelo IP real
    ```
-3. Rode o servidor aceitando conexões externas:
+3. Libere a porta 8000 no Firewall do Windows (uma única vez, em um
+   PowerShell **como administrador**):
+   ```powershell
+   New-NetFirewallRule -DisplayName "Romaneio (porta 8000)" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -Profile Private
+   ```
+4. Rode o servidor aceitando conexões externas:
    ```powershell
    .\venv\Scripts\python.exe manage.py runserver 0.0.0.0:8000
    ```
-4. No celular, acesse `http://<ip-do-computador>:8000`.
+5. No celular (no mesmo Wi-Fi), acesse `http://<ip-do-computador>:8000`.
 
 ## Problemas comuns
 
@@ -106,8 +131,9 @@ trocá-la.
 | `No module named django` | Dependências não instaladas no venv — repita o passo 2 |
 | `no such table: cargas_carga` | Migrações não aplicadas — repita o passo 3 |
 | Erro "Requisição inválida" ao acessar pelo celular | IP não incluído em `ALLOWED_HOSTS` — veja seção acima |
-| Página sem estilo (sem cores/ícones) | `collectstatic` não foi executado (passo 4) ou sem internet (Bootstrap vem de CDN) |
+| Página sem estilo (sem cores/ícones) | `collectstatic` não foi executado (passo 4); rode-o e reinicie o servidor |
 | Admin (`/admin/`) sem estilo | Mesmo caso: rode o passo 4 e reinicie o servidor |
+| Celular não conecta (tempo esgotado) | Firewall do Windows bloqueando a porta 8000 — veja a seção do celular |
 
 ## Modo de desenvolvimento
 

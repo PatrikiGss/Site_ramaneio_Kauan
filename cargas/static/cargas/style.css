@@ -1,13 +1,25 @@
 /* Ajustes finos sobre o Bootstrap para uso em celular */
 
+/* Rede de segurança: nada deve ultrapassar a largura da tela no celular. */
+html, body {
+    overflow-x: hidden;
+}
+
 .card-resumo .valor {
     font-size: 1.4rem;
     font-weight: 700;
+    line-height: 1.15;
+    /* Números grandes (ex.: peso total) quebram em vez de vazar da caixa */
+    overflow-wrap: anywhere;
 }
 
 @media (max-width: 575.98px) {
+    .card-resumo .card-body {
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+    }
     .card-resumo .valor {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 

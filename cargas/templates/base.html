@@ -6,9 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {# Cor da barra do navegador em celulares (combina com a navbar) #}
     <meta name="theme-color" content="#198754">
+    {% comment %}
+    Favicon embutido (emoji de maçã): evita o 404 de /favicon.ico sem arquivo
+    extra. Os caracteres de tag do SVG vão codificados (%3C / %3E) para não
+    confundir o parser de HTML.
+    {% endcomment %}
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E🍎%3C/text%3E%3C/svg%3E">
     <title>{% block titulo %}Romaneio de Cargas{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    {% comment %}
+    Bootstrap servido localmente (como o CSS do admin): o sistema não depende
+    de internet/CDN para o layout — essencial no celular e em rede instável.
+    {% endcomment %}
+    <link href="{% static 'vendor/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons.min.css' %}" rel="stylesheet">
     <link href="{% static 'cargas/style.css' %}" rel="stylesheet">
 </head>
 <body class="bg-body-tertiary d-flex flex-column min-vh-100">
@@ -80,6 +90,6 @@
         Sistema de Romaneio de Cargas
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

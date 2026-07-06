@@ -12,9 +12,10 @@ usuários já cadastrados, com senha provisória trocada obrigatoriamente no
 primeiro acesso.
 
 **Stack:** Python + Django 6 (backend, templates renderizados no servidor),
-SQLite (banco em arquivo único), Bootstrap 5 via CDN (layout responsivo),
-WhiteNoise (serve os arquivos estáticos em produção). Não há build de
-frontend nem JavaScript próprio — toda a lógica é no servidor.
+SQLite (banco em arquivo único), Bootstrap 5 **servido localmente** (em
+`cargas/static/vendor/` — o layout não depende de internet/CDN, essencial
+para uso no celular), WhiteNoise (serve os arquivos estáticos em produção).
+Não há build de frontend nem JavaScript próprio — toda a lógica é no servidor.
 
 ## Estrutura de pastas
 
@@ -36,7 +37,7 @@ site_ramaneio_kauan/
 │   ├── admin.py          # configuração do painel /admin/
 │   ├── migrations/       # histórico de alterações do banco
 │   ├── templates/        # base.html (layout geral) + telas do CRUD
-│   └── static/cargas/    # style.css (ajustes finos sobre o Bootstrap)
+│   └── static/           # cargas/style.css + vendor/ (Bootstrap local)
 └── contas/               # app de autenticação
     ├── models.py         # Perfil (flag de troca obrigatória de senha)
     ├── middleware.py     # bloqueio de navegação até trocar a senha provisória
