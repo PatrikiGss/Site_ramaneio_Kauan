@@ -124,15 +124,36 @@ escolha é salva no navegador (`localStorage`) e, na primeira visita, respeita
 a preferência do sistema operacional. Toda a lógica é inline em
 `cargas/templates/base.html`.
 
+## Lixeira (exclusão reversível)
+
+"Excluir" uma carga **não apaga na hora**: ela vai para a **lixeira** (o campo
+`excluido_em` do modelo é preenchido). Cargas na lixeira somem das listas, dos
+totais e do resumo. Na lixeira (menu do usuário → **Lixeira**, ou o botão
+"Lixeira (N)" na lista) dá para **Restaurar** (volta para a lista) ou
+**Excluir definitivamente** (aí sim apaga de vez, irreversível). O isolamento
+por usuário também vale aqui — ninguém vê nem mexe na lixeira de outro.
+
+## Resumo do período (fechamento)
+
+Menu → **Resumo** (`/resumo/`): escolhe-se um intervalo de datas (com atalhos
+Hoje / Últimos 7 dias / Este mês) e o sistema mostra os totais **agrupados por
+tipo de maçã, por tamanho e por dia** (cargas, caixas e peso em cada grupo),
+além do total geral. Tem botão **Imprimir** (a barra e o rodapé são omitidos na
+impressão via `d-print-none`). Considera só cargas ativas (ignora a lixeira).
+
 ## Rotas
 
 | URL | Tela | Acesso |
 |---|---|---|
 | `/` | Lista de cargas com filtros, totais e paginação | Logado (só as suas) |
 | `/nova/` | Cadastro de carga | Logado |
+| `/resumo/` | Fechamento por período (por tipo/tamanho/dia) | Logado (só as suas) |
+| `/lixeira/` | Cargas excluídas (restaurar / apagar de vez) | Logado (só as suas) |
 | `/<id>/` | Detalhes da carga | Logado (só as suas) |
 | `/<id>/editar/` | Edição | Logado (só as suas) |
-| `/<id>/excluir/` | Confirmação de exclusão | Logado (só as suas) |
+| `/<id>/excluir/` | Mover para a lixeira | Logado (só as suas) |
+| `/<id>/restaurar/` | Restaurar da lixeira (POST) | Logado (só as suas) |
+| `/<id>/excluir-definitivo/` | Exclusão definitiva (a partir da lixeira) | Logado (só as suas) |
 | `/contas/entrar/` e `/contas/sair/` | Login / logout | Público / logado |
 | `/contas/registrar/` | Criar conta para terceiro | Logado |
 | `/contas/trocar-senha/` | Trocar a própria senha | Logado |

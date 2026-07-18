@@ -35,7 +35,7 @@
     <link href="{% static 'cargas/style.css' %}" rel="stylesheet">
 </head>
 <body class="bg-body-tertiary d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand navbar-dark bg-success shadow-sm">
+    <nav class="navbar navbar-expand navbar-dark bg-success shadow-sm d-print-none">
         <div class="container">
             <a class="navbar-brand fw-semibold" href="{% url 'cargas:lista' %}">
                 <i class="bi bi-truck me-1"></i><span class="d-none d-sm-inline"> Romaneio de Cargas</span><span class="d-sm-none"> Romaneio</span>
@@ -55,6 +55,10 @@
                        href="{% url 'cargas:nova' %}">
                         <i class="bi bi-plus-circle d-sm-none"></i><span class="d-none d-sm-inline">Nova carga</span>
                     </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'resumo' %}active{% endif %}"
+                       href="{% url 'cargas:resumo' %}">
+                        <i class="bi bi-clipboard-data d-sm-none"></i><span class="d-none d-sm-inline">Resumo</span>
+                    </a>
                     <div class="nav-item dropdown ms-1">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,6 +69,11 @@
                             <li>
                                 <a class="dropdown-item" href="{% url 'contas:trocar_senha' %}">
                                     <i class="bi bi-key me-2"></i>Trocar senha
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'cargas:lixeira' %}">
+                                    <i class="bi bi-trash me-2"></i>Lixeira
                                 </a>
                             </li>
                             <li>
@@ -104,7 +113,7 @@
         {% block conteudo %}{% endblock %}
     </main>
 
-    <footer class="text-center text-muted small py-3">
+    <footer class="text-center text-muted small py-3 d-print-none">
         Sistema de Romaneio de Cargas
     </footer>
 

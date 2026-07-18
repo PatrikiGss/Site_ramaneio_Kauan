@@ -5,11 +5,13 @@
 {% block conteudo %}
 <h1 class="h4 mb-3">Excluir carga #{{ carga.pk }}</h1>
 
-<div class="card shadow-sm border-danger">
+<div class="card shadow-sm">
     <div class="card-body">
         <p class="mb-3">
-            <i class="bi bi-exclamation-triangle text-danger me-1"></i>
-            Tem certeza de que deseja excluir esta carga? <strong>Esta ação não pode ser desfeita.</strong>
+            <i class="bi bi-trash text-warning me-1"></i>
+            A carga será <strong>movida para a lixeira</strong>. Ela sai das listas
+            e dos totais, mas pode ser <strong>restaurada</strong> depois. A exclusão
+            definitiva é feita dentro da lixeira.
         </p>
 
         <ul class="list-group mb-4">
@@ -33,8 +35,8 @@
 
         <form method="post" class="d-flex gap-2">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash me-1"></i>Excluir definitivamente
+            <button type="submit" class="btn btn-warning">
+                <i class="bi bi-trash me-1"></i>Mover para a lixeira
             </button>
             <a href="{% url 'cargas:detalhe' carga.pk %}" class="btn btn-outline-secondary">Cancelar</a>
         </form>

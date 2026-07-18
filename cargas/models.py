@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class Carga(models.Model):
@@ -32,6 +33,10 @@ class Carga(models.Model):
     quantidade_caixas = models.PositiveIntegerField('quantidade de caixas')
     peso_total = models.DecimalField('peso total (kg)', max_digits=10, decimal_places=2)
     observacoes = models.TextField('observações', blank=True)
+    # Lixeira (exclusão reversível): quando preenchido, a carga está "na lixeira"
+    # e some das telas normais; NULL = carga ativa. As views filtram por este
+    # campo (ativas x lixeira). Ver mover_para_lixeira() / restaurar().
+    excluido_em = models.DateTimeField('excluído em', null=True, blank=True, db_index=True)
 
     class Meta:
         verbose_name = 'carga'
@@ -43,3 +48,16 @@ class Carga(models.Model):
 
     def get_absolute_url(self):
         return reverse('cargas:detalhe', kwargs={'pk': self.pk})
+
+    @property
+    def na_lixeira(self):
+        return self.excluido_em is not None
+
+    def mover_para_lixeira(self):
+        self.excluido_em = timezone.now()
+        # atualizado_em é auto_now: precisa entrar no update_fields para atualizar
+        self.save(update_fields=['excluido_em', 'atualizado_em'])
+
+    def restaurar(self):
+        self.excluido_em = None
+        self.save(update_fields=['excluido_em', 'atualizado_em'])
