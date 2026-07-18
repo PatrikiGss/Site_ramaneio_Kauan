@@ -5,13 +5,10 @@ from django.urls import reverse
 
 class Carga(models.Model):
     class TipoMaca(models.TextChoices):
-        GALA = 'GALA', 'Gala'
         FUJI = 'FUJI', 'Fuji'
-        EVA = 'EVA', 'Eva'
-        PINK_LADY = 'PINK_LADY', 'Pink Lady'
-        CRIPPS_PINK = 'CRIPPS_PINK', 'Cripps Pink'
-        GRANNY_SMITH = 'GRANNY_SMITH', 'Granny Smith'
-        RED_DELICIOUS = 'RED_DELICIOUS', 'Red Delicious'
+        GALA = 'GALA', 'Gala'
+        MISHIMA = 'MISHIMA', 'Mishima'
+        GOLDEN = 'GOLDEN', 'Golden'
         OUTRA = 'OUTRA', 'Outra'
 
     class Tamanho(models.TextChoices):

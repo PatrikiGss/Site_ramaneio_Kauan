@@ -56,7 +56,7 @@ Tabela de negócio `cargas_carga` (modelo `Carga`):
 | `usuario` | FK → `auth_user` | Dono do registro; base do isolamento de dados |
 | `criado_em` | datetime | Preenchido automaticamente no cadastro (`auto_now_add`) |
 | `atualizado_em` | datetime | Atualizado a cada edição (`auto_now`) |
-| `tipo_maca` | choice | Gala, Fuji, Eva, Pink Lady, Cripps Pink, Granny Smith, Red Delicious, Outra |
+| `tipo_maca` | choice | Fuji, Gala, Mishima, Golden, Outra |
 | `tamanho` | choice | P (Pequena), M (Média), G (Grande), GG (Extra grande) |
 | `quantidade_caixas` | inteiro ≥ 1 | Validado no formulário |
 | `peso_total` | decimal (kg) | Deve ser > 0; validado no formulário |
@@ -117,6 +117,12 @@ no celular vira cartões, e o menu compacta para ícones. O painel `/admin/` do
 Django também é responsivo por padrão nas versões atuais — funciona no
 celular sem configuração extra (os estáticos dele são servidos pelo
 WhiteNoise, por isso o `collectstatic` é obrigatório na instalação).
+
+**Modo escuro:** há um botão de lua/sol na barra superior que alterna claro/
+escuro (recurso nativo do Bootstrap 5.3 via `data-bs-theme` no `<html>`). A
+escolha é salva no navegador (`localStorage`) e, na primeira visita, respeita
+a preferência do sistema operacional. Toda a lógica é inline em
+`cargas/templates/base.html`.
 
 ## Rotas
 

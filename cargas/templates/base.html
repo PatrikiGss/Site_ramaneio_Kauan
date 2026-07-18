@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {# Cor da barra do navegador em celulares (combina com a navbar) #}
     <meta name="theme-color" content="#198754">
+    <script>
+        // Aplica o tema salvo (ou a preferência do sistema) ANTES de renderizar,
+        // para não haver "flash" de tela clara ao abrir no modo escuro.
+        (function () {
+            try {
+                var tema = localStorage.getItem('tema');
+                if (!tema) {
+                    tema = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-bs-theme', tema);
+            } catch (e) {}
+        })();
+    </script>
     {% comment %}
     Favicon embutido (emoji de maçã): evita o 404 de /favicon.ico sem arquivo
     extra. Os caracteres de tag do SVG vão codificados (%3C / %3E) para não
@@ -28,6 +41,11 @@
                 <i class="bi bi-truck me-1"></i><span class="d-none d-sm-inline"> Romaneio de Cargas</span><span class="d-sm-none"> Romaneio</span>
             </a>
             <div class="navbar-nav ms-auto align-items-center">
+                {# Alternador de modo claro/escuro — sempre visível #}
+                <button type="button" class="btn btn-sm btn-outline-light me-2" id="btn-tema"
+                        title="Alternar modo claro/escuro" aria-label="Alternar modo claro/escuro">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
                 {% if user.is_authenticated %}
                     <a class="nav-link {% if request.resolver_match.url_name == 'lista' %}active{% endif %}"
                        href="{% url 'cargas:lista' %}">
@@ -91,5 +109,25 @@
     </footer>
 
     <script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        // Alternância do modo escuro: troca data-bs-theme no <html>, salva a
+        // escolha no navegador e ajusta o ícone (lua/sol).
+        (function () {
+            var btn = document.getElementById('btn-tema');
+            if (!btn) return;
+            var icone = btn.querySelector('i');
+            function aplicar(tema) {
+                document.documentElement.setAttribute('data-bs-theme', tema);
+                icone.className = tema === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+            }
+            // Sincroniza o ícone com o tema já aplicado pelo script do <head>
+            aplicar(document.documentElement.getAttribute('data-bs-theme') || 'light');
+            btn.addEventListener('click', function () {
+                var novo = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+                try { localStorage.setItem('tema', novo); } catch (e) {}
+                aplicar(novo);
+            });
+        })();
+    </script>
 </body>
 </html>
