@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from decouple import config, Csv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,17 @@ ALLOWED_HOSTS = config(
     default="localhost,127.0.0.1,[::1]",
     cast=Csv()
 )
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
+# O Render injeta o hostname público automaticamente nesta variável:
+RENDER_HOST = config("RENDER_EXTERNAL_HOSTNAME", default="")
+if RENDER_HOST:
+    ALLOWED_HOSTS.append(RENDER_HOST)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_HOST}")
+
+# Render encerra o HTTPS num proxy; isto faz o Django reconhecer a conexão
+# como segura (necessário p/ login/CSRF funcionarem no site publicado):
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
@@ -95,20 +106,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": config(
-            "DB_ENGINE",
-            default="django.db.backends.sqlite3"
-        ),
-        "NAME": config(
-            "DB_NAME",
-            default=str(BASE_DIR / "db.sqlite3")
-        ),
-        "USER": config("DB_USER", default=""),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default=""),
-        "PORT": config("DB_PORT", default=""),
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
