@@ -1,6 +1,10 @@
 # Sistema de Romaneio de Cargas
-
 🔗 **Acesse:** https://site-ramaneio-kauan.onrender.com
+
+## Licença
+
+Software **proprietário** — não é open source. O uso é regido pela licença em
+**[LICENSE](LICENSE)**. Todos os direitos reservados.
 
 Aplicação web (SaaS) para **registro e controle dos carregamentos de maçã** do
 dia a dia. Cada operador tem a própria conta e enxerga apenas as cargas que
@@ -60,11 +64,6 @@ automático a cada push na branch `main`.
 - **[INSTALACAO.md](INSTALACAO.md)** — como clonar o projeto e colocar para rodar.
 - **[DOCUMENTACAO.md](DOCUMENTACAO.md)** — como o software funciona por dentro,
   modelo de dados e tarefas comuns de suporte.
-
-## Licença
-
-Software **proprietário** — não é open source. O uso é regido pela licença em
-**[LICENSE](LICENSE)**. Todos os direitos reservados.
 
 ## Autor
 
