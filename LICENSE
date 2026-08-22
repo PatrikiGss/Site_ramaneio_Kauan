@@ -1,0 +1,87 @@
+Licença de Software Proprietário — Sistema de Romaneio de Cargas (SaaS)
+
+Copyright (c) 2026 Patriki de Oliveira Góss. Todos os direitos reservados.
+
+Titular: Patriki de Oliveira Góss
+E-mail:  patrikigss321@gmail.com
+
+
+1. TITULARIDADE
+Este software ("Software"), incluindo seu código-fonte, código-objeto,
+interfaces, documentação, layout e demais componentes, é de propriedade
+exclusiva de Patriki de Oliveira Góss ("Titular") e é protegido pelas leis de
+direito autoral e de propriedade intelectual. O Software é licenciado, não
+vendido.
+
+2. NATUREZA SaaS E CONCESSÃO DE USO
+O Software é disponibilizado na modalidade "Software como Serviço" (SaaS),
+mediante acesso a uma instância hospedada e operada pelo Titular. Sujeito ao
+pagamento e às condições do contrato de prestação de serviço aplicável, o
+Titular concede ao cliente contratante ("Cliente") uma licença pessoal,
+limitada, revogável, não exclusiva e intransferível para ACESSAR e USAR o
+serviço, exclusivamente para os fins internos do próprio Cliente.
+
+3. RESTRIÇÕES
+Salvo autorização prévia e por escrito do Titular, é vedado ao Cliente e a
+qualquer terceiro:
+  (a) copiar, reproduzir ou distribuir o Software, no todo ou em parte;
+  (b) modificar, adaptar, traduzir ou criar obras derivadas do Software;
+  (c) realizar engenharia reversa, descompilar ou desmontar o Software, salvo
+      nos limites expressamente permitidos por lei;
+  (d) sublicenciar, alugar, arrendar, emprestar, revender ou ceder o Software
+      ou o acesso ao serviço a terceiros;
+  (e) remover ou alterar avisos de direito autoral, marcas ou identificações
+      de titularidade;
+  (f) usar o Software para desenvolver produto ou serviço concorrente.
+
+4. PROPRIEDADE E TRATAMENTO DOS DADOS
+Os dados de negócio inseridos pelo Cliente no serviço (cargas, registros e
+afins) são de propriedade do Cliente. Para fins da Lei nº 13.709/2018 (LGPD),
+o Cliente figura como controlador e o Titular como operador, tratando tais
+dados exclusivamente para executar e manter o serviço contratado, conforme as
+instruções do Cliente. Mediante solicitação, o Titular disponibiliza ao Cliente
+a exportação de seus dados. A rotina de cópias de segurança, o prazo de
+retenção e a capacidade de restauração são os definidos no contrato de
+prestação de serviço e/ou limitados aos recursos da infraestrutura contratada.
+
+5. DISPONIBILIDADE DO SERVIÇO
+Salvo previsão expressa em contrato, o serviço é prestado sem garantia de
+disponibilidade ininterrupta. O serviço pode sofrer indisponibilidades,
+latências ou janelas de manutenção, inclusive decorrentes de terceiros
+(provedores de hospedagem, banco de dados e conectividade) e das limitações
+dos planos de infraestrutura utilizados. Níveis de serviço (SLA), se
+aplicáveis, devem constar do contrato de prestação de serviço.
+
+6. PROPRIEDADE INTELECTUAL
+Todos os direitos, títulos e interesses sobre o Software — inclusive melhorias,
+correções e novas versões — permanecem com o Titular. Nenhuma disposição desta
+licença transfere ao Cliente qualquer direito de propriedade sobre o Software.
+
+7. VIGÊNCIA E RESCISÃO
+Esta licença vigora enquanto durar o contrato de prestação de serviço. O
+descumprimento de qualquer cláusula, inclusive a falta de pagamento, autoriza a
+suspensão do acesso e a rescisão imediata, cessando o direito de uso, sem
+prejuízo das demais medidas cabíveis. Encerrado o vínculo, o Cliente poderá
+solicitar a exportação de seus dados dentro do prazo previsto em contrato.
+
+8. GARANTIAS E RESPONSABILIDADE
+O SOFTWARE É FORNECIDO "NO ESTADO EM QUE SE ENCONTRA", SEM GARANTIAS DE
+QUALQUER NATUREZA, EXPRESSAS OU IMPLÍCITAS. NA MÁXIMA EXTENSÃO PERMITIDA EM
+LEI, O TITULAR NÃO SE RESPONSABILIZA POR DANOS INDIRETOS, LUCROS CESSANTES,
+PERDA DE DADOS OU INTERRUPÇÕES, LIMITANDO-SE EVENTUAL RESPONSABILIDADE AOS
+VALORES EFETIVAMENTE PAGOS PELO SERVIÇO NOS ÚLTIMOS 3 (TRÊS) MESES.
+
+9. RELAÇÃO COM O CONTRATO DE PRESTAÇÃO DE SERVIÇO
+Esta licença trata exclusivamente dos direitos de uso e da propriedade do
+Software. Condições comerciais — preço, forma de pagamento, prazo, escopo do
+suporte, disponibilidade e rotina de backup — são regidas pelo contrato de
+prestação de serviço firmado entre as partes, que prevalece em caso de
+conflito quanto a esses pontos.
+
+10. LEI APLICÁVEL E FORO
+Esta licença é regida pelas leis da República Federativa do Brasil. Fica
+eleito o foro da comarca do domicílio do Titular para dirimir controvérsias,
+salvo disposição legal em contrário.
+
+Para uso, contratação ou permissões além do previsto aqui, contate o Titular
+pelos canais informados no início deste documento.
