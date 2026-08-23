@@ -12,7 +12,7 @@ usuários já cadastrados, com senha provisória trocada obrigatoriamente no
 primeiro acesso.
 
 **Stack:** Python + Django 6 (backend, templates renderizados no servidor),
-SQLite (banco em arquivo único), Bootstrap 5 **servido localmente** (em
+PostgreSQL em produção e SQLite em desenvolvimento, Bootstrap 5 **servido localmente** (em
 `cargas/static/vendor/` — o layout não depende de internet/CDN, essencial
 para uso no celular), WhiteNoise (serve os arquivos estáticos em produção).
 Não há build de frontend nem JavaScript próprio — toda a lógica é no servidor.
@@ -22,7 +22,7 @@ Não há build de frontend nem JavaScript próprio — toda a lógica é no serv
 ```
 site_ramaneio_kauan/
 ├── manage.py             # utilitário de linha de comando do Django
-├── requirements.txt      # dependências (Django + WhiteNoise)
+├── requirements.txt      # dependências do projeto
 ├── db.sqlite3            # banco de dados (não versionado)
 ├── staticfiles/          # estáticos coletados p/ produção (não versionado)
 ├── templates/            # páginas de erro: 404, 403, 400 e 500
@@ -36,6 +36,7 @@ site_ramaneio_kauan/
 │   ├── urls.py           # rotas do CRUD
 │   ├── admin.py          # configuração do painel /admin/
 │   ├── migrations/       # histórico de alterações do banco
+│   ├── tests/            # bateria de testes do app (ver "Testes automatizados")
 │   ├── templates/        # base.html (layout geral) + telas do CRUD
 │   └── static/           # cargas/style.css + vendor/ (Bootstrap local)
 └── contas/               # app de autenticação
@@ -44,6 +45,7 @@ site_ramaneio_kauan/
     ├── forms.py          # forms de login/registro/troca com visual Bootstrap
     ├── views.py          # RegistroView e TrocarSenhaView
     ├── urls.py           # /contas/entrar|sair|registrar|trocar-senha/
+    ├── tests/            # testes de login, registro e troca de senha
     └── templates/contas/ # telas de login, registro e troca de senha
 ```
 
@@ -187,6 +189,48 @@ conta (desmarcar "Ativo") em vez de excluir.
 **Depois de atualizar o código** — se arquivos estáticos mudaram, rodar
 `collectstatic --noinput`; se modelos mudaram, rodar `migrate`. Reiniciar o
 servidor.
+
+## Testes automatizados
+
+O projeto tem uma bateria de **105 testes** que cobre as regras de negócio e,
+principalmente, o **isolamento de dados entre usuários**. Rode-a sempre antes de
+publicar uma alteração:
+
+```powershell
+.\venv\Scripts\python.exe manage.py test
+```
+
+Para rodar só uma parte (mais rápido durante o desenvolvimento):
+
+```powershell
+.\venv\Scripts\python.exe manage.py test cargas
+.\venv\Scripts\python.exe manage.py test cargas.tests.test_resumo
+```
+
+Os testes usam um **banco de dados temporário**, criado e destruído a cada
+execução — eles nunca tocam nos dados reais.
+
+Onde ficam e o que cobrem:
+
+| Arquivo | Cobre |
+|---|---|
+| `cargas/tests/base.py` | Helpers compartilhados (criar usuário/carga, datar registros no passado) |
+| `cargas/tests/test_models.py` | Modelo `Carga`, ordenação e os métodos da lixeira |
+| `cargas/tests/test_forms.py` | Validações (caixas ≥ 1, peso > 0) e as opções de tipo/tamanho |
+| `cargas/tests/test_acesso.py` | Login obrigatório e **isolamento entre usuários** |
+| `cargas/tests/test_crud.py` | Cadastro, edição e exclusão pelas telas |
+| `cargas/tests/test_lista.py` | Filtros, busca, totais e paginação |
+| `cargas/tests/test_lixeira.py` | Restaurar, excluir definitivo e o fluxo completo |
+| `cargas/tests/test_resumo.py` | Agrupamentos por tipo, tamanho e dia |
+| `contas/tests/test_login.py` | Login e logout |
+| `contas/tests/test_registro.py` | Criação de contas restrita a usuários logados |
+| `contas/tests/test_troca_senha.py` | Troca de senha e bloqueio de primeiro acesso |
+
+**Ao criar uma funcionalidade nova**, acrescente testes no arquivo
+correspondente (ou crie um `test_<assunto>.py` no pacote). Se a funcionalidade
+lê ou grava cargas, **inclua sempre um teste de isolamento** — que um usuário
+não alcança o dado de outro. É a regra mais crítica do sistema e a mais fácil
+de quebrar sem perceber.
 
 ## Decisões de projeto (para quem for dar manutenção)
 

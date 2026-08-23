@@ -63,6 +63,17 @@ automático a cada push na branch `main`.
 > "hiberna" e o primeiro acesso seguinte pode demorar ~50 segundos para
 > responder. Os acessos seguintes ficam normais.
 
+## Testes
+
+O projeto tem **105 testes automatizados** cobrindo as regras de negócio e o
+isolamento de dados entre usuários. Rode antes de publicar qualquer alteração:
+
+```powershell
+.\venv\Scripts\python.exe manage.py test
+```
+
+Detalhes de organização e cobertura em [DOCUMENTACAO.md](DOCUMENTACAO.md).
+
 ## Documentação
 
 - **[INSTALACAO.md](INSTALACAO.md)** — como clonar o projeto e colocar para rodar.
