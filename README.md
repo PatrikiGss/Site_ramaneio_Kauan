@@ -1,4 +1,5 @@
 # Sistema de Romaneio de Cargas
+[![testes](https://github.com/PatrikiGss/Site_ramaneio_Kauan/actions/workflows/ci.yml/badge.svg)](https://github.com/PatrikiGss/Site_ramaneio_Kauan/actions/workflows/ci.yml)
 Aplicação web (SaaS) para **registro e controle dos carregamentos de maçã** do
 dia a dia. Cada operador tem a própria conta e enxerga apenas as cargas que
 cadastrou. Feito para uso tanto no **celular** quanto no computador.
